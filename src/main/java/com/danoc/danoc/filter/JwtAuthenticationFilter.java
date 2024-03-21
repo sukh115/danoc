@@ -2,6 +2,7 @@ package com.danoc.danoc.filter;
 
 import java.util.List;
 import java.io.IOException;
+import java.util.Optional;
 import java.util.ArrayList;
 
 import org.springframework.security.authentication.AbstractAuthenticationToken;
@@ -18,7 +19,6 @@ import org.springframework.security.core.GrantedAuthority;
 import com.danoc.danoc.entity.UserEntity;
 import com.danoc.danoc.provider.JwtProvider;
 import com.danoc.danoc.repository.UserRepository;
-
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -39,24 +39,29 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
                 try {
                     String token = parseBearerToken(request);
-        
+                    
                     if (token != null && jwtProvider.validateToken(token)) {
                         Long userId = jwtProvider.extractUserId(token);
                         String username = jwtProvider.extractUsername(token);
-                        UserEntity userEntity = userRepository.findByUsername(username);
-        
-                        String role = userEntity.getRole();
-        
-                        List<GrantedAuthority> authorities = new ArrayList<>();
-                        authorities.add(new SimpleGrantedAuthority(role));
-        
-                        AbstractAuthenticationToken authenticationToken =
-                                new UsernamePasswordAuthenticationToken(username, null, authorities);
-                        authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-        
-                        SecurityContext securityContext = SecurityContextHolder.createEmptyContext();
-                        securityContext.setAuthentication(authenticationToken);
-                        SecurityContextHolder.setContext(securityContext);
+                        Optional<UserEntity> optionalUserEntity = userRepository.findByUserId(userId);
+                        if (optionalUserEntity.isPresent()) {
+
+                            UserEntity userEntity = optionalUserEntity.get();
+                            String role = userEntity.getRole();
+                            
+                            List<GrantedAuthority> authorities = new ArrayList<>();
+                            authorities.add(new SimpleGrantedAuthority(role));
+                            
+                            AbstractAuthenticationToken authenticationToken =
+                            new UsernamePasswordAuthenticationToken(userId, null, authorities);
+                            authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                            
+                            SecurityContext securityContext = SecurityContextHolder.createEmptyContext();
+                            securityContext.setAuthentication(authenticationToken);
+                            SecurityContextHolder.setContext(securityContext);
+                        } else {
+                            log.error("User not found for userId: {}", userId);
+                        }
                     }
         
                 } catch (Exception e) {
