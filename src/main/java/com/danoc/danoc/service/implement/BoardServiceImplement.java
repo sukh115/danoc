@@ -4,12 +4,11 @@ package com.danoc.danoc.service.implement;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
+
 import org.springframework.http.ResponseEntity;
 
 import org.springframework.stereotype.Service;
@@ -17,11 +16,9 @@ import org.springframework.stereotype.Service;
 import com.danoc.danoc.dto.ResponseDto;
 import com.danoc.danoc.dto.request.board.BoardDeleteRequestDto;
 import com.danoc.danoc.dto.request.board.BoardEditRequestDto;
-import com.danoc.danoc.dto.request.board.BoardListRequestDto;
 import com.danoc.danoc.dto.request.board.BoardWriteRequestDto;
 import com.danoc.danoc.dto.response.board.BoardDeleteResponseDto;
 import com.danoc.danoc.dto.response.board.BoardEditResponseDto;
-import com.danoc.danoc.dto.response.board.BoardListResponseDto;
 import com.danoc.danoc.dto.response.board.BoardReadResponseDto;
 import com.danoc.danoc.dto.response.board.BoardWriteResponseDto;
 import com.danoc.danoc.entity.BoardEntity;
@@ -45,32 +42,17 @@ public class BoardServiceImplement implements BoardService {
     private final ImageRepository imageRepository;
 
     @Override
-    public ResponseEntity<? super BoardListResponseDto> boardList(BoardListRequestDto dto, int page, int size) {
-        
+    public List<BoardEntity> boardList() {
         try {
-            Long cate = dto.getCate();
-            Pageable pageable = PageRequest.of(0, 10);
-            Page<BoardEntity> boardPage = boardRepository.findAll(pageable);
-
-            if (cate != null) {
-
-                boardPage = boardRepository.findAllByCate(cate, pageable);
-            } else {
-
-                boardPage = boardRepository.findAll(pageable);
-            }
-
-            if (boardPage.isEmpty()) {
-                return BoardListResponseDto.notFound();
-            }
-
-
+            return boardRepository.findAll();
         } catch (Exception e) {
-            log.debug("목록을 불러올수 없습니다", e);
-            return ResponseDto.databaseError();
+            log.debug("게시판 목록을 불러올 수 없습니다", e);
+            // 예외가 발생할 경우 null을 반환하거나 빈 목록을 반환할 수 있습니다.
+            return Collections.emptyList(); // 빈 목록 반환
+            // 또는 원하는 방식에 따라 예외 처리 로직을 추가하여 반환값을 결정할 수 있습니다.
         }
-        return BoardListResponseDto.success();
     }
+    
 
         @Override
         public ResponseEntity<? super BoardWriteResponseDto> boardWrite(BoardWriteRequestDto dto, Long userId){

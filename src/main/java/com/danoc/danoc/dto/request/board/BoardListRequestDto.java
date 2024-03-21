@@ -2,6 +2,7 @@ package com.danoc.danoc.dto.request.board;
 
 import java.sql.Timestamp;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -11,21 +12,18 @@ import lombok.Setter;
 @NoArgsConstructor
 public class BoardListRequestDto {
     
-    @NotBlank
+    @NotNull
     private Long boardId;
 
     @NotBlank 
     private String title;
 
-    @NotBlank
-    private String ctnt;
-
-    @NotBlank 
+    @NotNull 
     private Long cate;
 
-    @NotBlank
+    @NotNull
     private Timestamp date;
 
-    @NotBlank
+    @NotNull
     private Long userId;
 }
