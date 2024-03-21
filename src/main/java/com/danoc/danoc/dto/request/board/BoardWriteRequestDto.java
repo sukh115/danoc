@@ -24,7 +24,5 @@ public class BoardWriteRequestDto {
 
     private List<String> boardImageList;
 
-    @NotNull(message = "userid must not be null")
-    private Long userId;
     
 }

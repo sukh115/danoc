@@ -34,9 +34,8 @@ public class BoardEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long boardId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", referencedColumnName = "user_id") 
-    private UserEntity userId;
+
+    private Long userId;
 
     private String title;
     private String ctnt;
@@ -52,7 +51,7 @@ public class BoardEntity {
         this.ctnt = dto.getCtnt();
         this.cate = dto.getCate();
         this.date = new Timestamp(System.currentTimeMillis());
-        this.userId = new UserEntity(userId);
+        this.userId = userId;
             }
     // public void uploadPhoto(MultipartFile file, FileService fileStorageService) {
     //     if 

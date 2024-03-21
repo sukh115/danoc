@@ -12,7 +12,7 @@ import com.danoc.danoc.entity.UserEntity;
 public interface UserRepository extends JpaRepository<UserEntity, Long> {
 
     boolean existsByUsername(String username);
-
+    boolean existsByUserId(Long userId);
     UserEntity findByUsername(String username);
 
     Optional<UserEntity> findByUserId(Long userId);

@@ -26,7 +26,6 @@ import com.danoc.danoc.dto.response.board.BoardReadResponseDto;
 import com.danoc.danoc.dto.response.board.BoardWriteResponseDto;
 import com.danoc.danoc.entity.BoardEntity;
 import com.danoc.danoc.entity.ImageEntity;
-import com.danoc.danoc.entity.UserEntity;
 import com.danoc.danoc.repository.BoardRepository;
 import com.danoc.danoc.repository.ImageRepository;
 import com.danoc.danoc.repository.UserRepository;
@@ -75,25 +74,12 @@ public class BoardServiceImplement implements BoardService {
         @Override
         public ResponseEntity<? super BoardWriteResponseDto> boardWrite(BoardWriteRequestDto dto, Long userId){
             try {
-                // Long userId = dto.getUserId();
 
-                if (userId == null) {
-                    // 인증되지 않은 경우에 대한 처리
-                    log.debug("게시판 사용자 인증이 필요합니다");
-                    return BoardWriteResponseDto.userDetailsNotFound();
-                }
-        
-                // userId를 사용하여 사용자 엔티티 조회
-                UserEntity userEntity = userRepository.findById(userId).orElse(null);
-        
-                if (userEntity == null) {
-                    // 사용자 엔티티를 찾을 수 없는 경우에 대한 처리
-                    log.debug("사용자를 찾을 수 없습니다");
-                    return BoardWriteResponseDto.userNotFound();
-                }
+               boolean existsByUserId = userRepository.existsByUserId(userId);
+               if (!existsByUserId) return BoardWriteResponseDto.userNotFound();
         
                 // 게시판 엔티티 생성 및 저장
-                BoardEntity boardEntity = new BoardEntity(dto, userEntity.getUserId());
+                BoardEntity boardEntity = new BoardEntity(dto,userId);
                 boardRepository.save(boardEntity);
 
                 Long boardId = boardEntity.getBoardId();
