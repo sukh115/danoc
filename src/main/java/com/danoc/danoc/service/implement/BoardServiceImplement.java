@@ -29,6 +29,7 @@ import com.danoc.danoc.entity.ImageEntity;
 import com.danoc.danoc.repository.BoardRepository;
 import com.danoc.danoc.repository.ImageRepository;
 import com.danoc.danoc.repository.UserRepository;
+import com.danoc.danoc.repository.resultSet.BoardReadResultSet;
 import com.danoc.danoc.service.BoardService;
 
 import lombok.RequiredArgsConstructor;
@@ -179,15 +180,19 @@ public class BoardServiceImplement implements BoardService {
         @Override
         public ResponseEntity<? super BoardReadResponseDto> boardRead(Long boardId) {
 
+            BoardReadResultSet resultSet = null;
+            List<ImageEntity> imageEntities = new ArrayList<>();
+
             try {
-                // 게시물 ID를 사용하여 해당 게시물을 조회합니다.
-                Optional<BoardEntity> optionalBoard = boardRepository.findById(boardId);
-                // 게시물이 존재하지 않을 경우 응답합니다.
-                if (!optionalBoard.isPresent()) {
-                    return BoardReadResponseDto.boardNotFound();
-                }
-                // 게시물을 조회하여 응답합니다.
-                return BoardReadResponseDto.success();
+                
+                resultSet = boardRepository.boardRead(boardId);
+                if (resultSet == null) return BoardReadResponseDto.boardNotFound();
+
+                imageEntities = imageRepository.findByBoardId(boardId);
+
+                BoardEntity boardEntity = boardRepository.findByBoardId(boardId);
+
+                return BoardReadResponseDto.success(resultSet, imageEntities);
             } catch (Exception e) {
                 return ResponseDto.databaseError();
             }

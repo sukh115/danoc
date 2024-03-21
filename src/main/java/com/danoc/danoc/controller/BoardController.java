@@ -88,9 +88,9 @@ public class BoardController {
         return response;
     }
 
-    @GetMapping("/read/{boardId}")
+    @GetMapping("/{boardId}")
     public ResponseEntity<? super BoardReadResponseDto> boardRead (
-         @PathVariable Long boardId
+         @PathVariable("boardId") Long boardId
     ) {
         ResponseEntity<? super BoardReadResponseDto> response = boardService.boardRead(boardId);
         return response;
