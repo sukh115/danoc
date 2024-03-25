@@ -11,4 +11,5 @@ import com.danoc.danoc.entity.ImageEntity;
 public interface ImageRepository extends JpaRepository<ImageEntity, Long> {
     
     List<ImageEntity> findByBoardId(Long boardId);
+    List<ImageEntity> findByQaId(Long qaId);
 }

@@ -2,14 +2,13 @@ package com.danoc.danoc.entity;
 
 import java.sql.Timestamp;
 
+import com.danoc.danoc.dto.request.qna.QnaWriteRequestDto;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -26,9 +25,7 @@ public class QnaEntity {
     @Column(name = "qa_id")
     private Long qaId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private UserEntity userId;
+    private Long userId;
 
     private String title;
 
@@ -39,5 +36,13 @@ public class QnaEntity {
     private Timestamp date;
 
     private Timestamp chg;
+
+    public QnaEntity(QnaWriteRequestDto dto, Long userId) {
+        this.title = dto.getTitle();
+        this.ctnt = dto.getCtnt();
+        this.pwd = dto.getPwd();
+        this.date = new Timestamp(System.currentTimeMillis());
+        this.userId = userId;
+    }
 
 }

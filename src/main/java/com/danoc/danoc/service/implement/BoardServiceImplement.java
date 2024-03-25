@@ -78,7 +78,7 @@ public class BoardServiceImplement implements BoardService {
                     // 이미지가 있는 경우 이미지 엔티티 생성 및 저장
                     List<ImageEntity> imageEntities = new ArrayList<>();
                     for (String image : boardImageList) {
-                        ImageEntity imageEntity = new ImageEntity(boardId, image);
+                        ImageEntity imageEntity = new ImageEntity(boardId, image, true);
                         imageEntities.add(imageEntity);
                     }
                     imageRepository.saveAll(imageEntities);
@@ -138,7 +138,7 @@ public class BoardServiceImplement implements BoardService {
                     
                     // 이미지 엔티티 생성 및 저장
                     for (String image: boardImageList) {
-                        ImageEntity imageEntity = new ImageEntity(boardId, image);
+                        ImageEntity imageEntity = new ImageEntity(boardId, image, true);
                         imageEntities.add(imageEntity);
                     }
                     imageRepository.saveAll(imageEntities);

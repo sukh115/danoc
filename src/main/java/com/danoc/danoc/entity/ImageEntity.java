@@ -20,9 +20,15 @@ public class ImageEntity {
     private Long imageId;
     private Long boardId;
     private String image;
+    private Long qaId;
+    private String pwd;
 
-    public ImageEntity(Long boardId, String image){
-        this.boardId = boardId;
+    public ImageEntity(Long boardIdOrQaId, String image, boolean isBoardId) {
+        if (isBoardId) {
+            this.boardId = boardIdOrQaId;
+        } else {
+            this.qaId = boardIdOrQaId;
+        }
         this.image = image;
     }
 }
