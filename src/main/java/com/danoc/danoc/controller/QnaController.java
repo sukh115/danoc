@@ -1,10 +1,13 @@
 package com.danoc.danoc.controller;
 
+import org.apache.catalina.connector.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.danoc.danoc.dto.request.qna.QnaDeleteRequestDto;
 import com.danoc.danoc.dto.request.qna.QnaWriteRequestDto;
+import com.danoc.danoc.dto.response.qna.QnaDeleteResponseDto;
 import com.danoc.danoc.dto.response.qna.QnaWriteResponseDto;
 import com.danoc.danoc.filter.JwtAuthenticationFilter;
 import com.danoc.danoc.provider.JwtProvider;
@@ -44,5 +47,14 @@ public class QnaController {
         
         return reponse;
     }
+
+    @PostMapping("/delete")
+    public ResponseEntity<? super QnaDeleteResponseDto> qnaDelete(
+        @RequestBody @Valid QnaDeleteRequestDto requestDto
+    ) {
+        ResponseEntity<? super QnaDeleteResponseDto> response = qnaService.qnaDelete(requestDto);
+        return response;
+    }
+    
     
 }
