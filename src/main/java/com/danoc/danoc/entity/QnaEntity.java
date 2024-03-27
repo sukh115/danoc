@@ -2,7 +2,9 @@ package com.danoc.danoc.entity;
 
 import java.sql.Timestamp;
 
+import com.danoc.danoc.dto.request.qna.QnaEditRequestDto;
 import com.danoc.danoc.dto.request.qna.QnaWriteRequestDto;
+import com.danoc.danoc.dto.response.qna.QnaListResponseDto;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -13,8 +15,10 @@ import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -43,6 +47,12 @@ public class QnaEntity {
         this.pwd = dto.getPwd();
         this.date = new Timestamp(System.currentTimeMillis());
         this.userId = userId;
+    }
+
+    public QnaEntity(QnaEditRequestDto dto) {
+        this.title = dto.getTitle();
+        this.ctnt = dto.getCtnt();
+        this.chg = dto.getChg();
     }
 
 }

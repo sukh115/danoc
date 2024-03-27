@@ -6,21 +6,17 @@ import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.danoc.danoc.dto.request.board.BoardDeleteRequestDto;
 import com.danoc.danoc.dto.request.board.BoardEditRequestDto;
-import com.danoc.danoc.dto.request.board.BoardListRequestDto;
 import com.danoc.danoc.dto.request.board.BoardWriteRequestDto;
 
-import com.danoc.danoc.dto.response.board.BoardListResponseDto;
 import com.danoc.danoc.dto.response.board.BoardReadResponseDto;
 import com.danoc.danoc.dto.response.board.BoardWriteResponseDto;
 import com.danoc.danoc.entity.BoardEntity;

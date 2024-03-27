@@ -1,14 +1,18 @@
 package com.danoc.danoc.controller;
 
-import org.apache.catalina.connector.Response;
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.danoc.danoc.dto.request.qna.QnaDeleteRequestDto;
+import com.danoc.danoc.dto.request.qna.QnaEditRequestDto;
 import com.danoc.danoc.dto.request.qna.QnaWriteRequestDto;
 import com.danoc.danoc.dto.response.qna.QnaDeleteResponseDto;
+import com.danoc.danoc.dto.response.qna.QnaEditResponseDto;
 import com.danoc.danoc.dto.response.qna.QnaWriteResponseDto;
+import com.danoc.danoc.entity.QnaEntity;
 import com.danoc.danoc.filter.JwtAuthenticationFilter;
 import com.danoc.danoc.provider.JwtProvider;
 import com.danoc.danoc.service.QnaService;
@@ -19,6 +23,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
 
 
 @Slf4j
@@ -55,6 +62,23 @@ public class QnaController {
         ResponseEntity<? super QnaDeleteResponseDto> response = qnaService.qnaDelete(requestDto);
         return response;
     }
+
+    @PostMapping("/edit")
+    public ResponseEntity<? super QnaEditResponseDto> qnaEdit(
+        @RequestBody @Valid QnaEditRequestDto requestDto
+    ) {
+        ResponseEntity<?super QnaEditResponseDto> response = qnaService.qnaEdit(requestDto);
+        return response;
+    }
+    
+    @GetMapping("/list")
+    @ResponseBody
+    public List<QnaEntity> qnaList() {
+        return qnaService.qnaList();
+    }
+    
+    
+    
     
     
 }
