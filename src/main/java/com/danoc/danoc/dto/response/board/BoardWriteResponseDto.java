@@ -24,9 +24,6 @@ public class BoardWriteResponseDto extends ResponseDto {
         ResponseDto responseBody = new ResponseDto(ResponseCode.USER_NOT_FOUND, ResponseMessage.USER_NOT_FOUND);
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseBody);
     }
-    public static ResponseEntity<ResponseDto> userDetailsNotFound() {
-        ResponseDto responseBody = new ResponseDto(ResponseCode.USER_NOT_FOUND, ResponseMessage.USER_NOT_FOUND);
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseBody);
-    }
+
     
 }

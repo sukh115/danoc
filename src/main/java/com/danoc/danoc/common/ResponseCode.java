@@ -20,6 +20,8 @@ public interface ResponseCode {
     String USER_NOT_FOUND = "UNF";
     String USER_DETAILS_NOT_FOUND = "UDNF";
 
+    String QNA_NOT_FOUND = "QNF";
+
     String DELETE_FAIL = "DF";
     String EDIT_FAIL = "EF";
 }

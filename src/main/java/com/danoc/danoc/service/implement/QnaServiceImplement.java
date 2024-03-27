@@ -9,17 +9,24 @@ import java.util.Collections;
 import java.util.ArrayList;
 
 import com.danoc.danoc.dto.ResponseDto;
+import com.danoc.danoc.dto.request.qna.QnaCommentWriteRequestDto;
 import com.danoc.danoc.dto.request.qna.QnaDeleteRequestDto;
 import com.danoc.danoc.dto.request.qna.QnaEditRequestDto;
 import com.danoc.danoc.dto.request.qna.QnaWriteRequestDto;
+import com.danoc.danoc.dto.response.qna.QnaCommentWriteResponseDto;
 import com.danoc.danoc.dto.response.qna.QnaDeleteResponseDto;
 import com.danoc.danoc.dto.response.qna.QnaEditResponseDto;
+import com.danoc.danoc.dto.response.qna.QnaReadResponseDto;
 import com.danoc.danoc.dto.response.qna.QnaWriteResponseDto;
+import com.danoc.danoc.entity.CommentEntity;
 import com.danoc.danoc.entity.ImageEntity;
 import com.danoc.danoc.entity.QnaEntity;
+import com.danoc.danoc.repository.CommentRepository;
 import com.danoc.danoc.repository.ImageRepository;
 import com.danoc.danoc.repository.QnaRepository;
 import com.danoc.danoc.repository.UserRepository;
+import com.danoc.danoc.repository.resultSet.QnaListResultSet;
+import com.danoc.danoc.repository.resultSet.QnaReadResultSet;
 import com.danoc.danoc.service.QnaService;
 
 import lombok.RequiredArgsConstructor;
@@ -33,8 +40,42 @@ public class QnaServiceImplement implements QnaService {
     private final QnaRepository qnaRepository;
     private final UserRepository userRepository;
     private final ImageRepository imageRepository;
-
-
+    private final CommentRepository commentRepository;
+    
+    @Override
+    public List<QnaListResultSet> qnaList() {
+        try {
+            return qnaRepository.qnaList();
+        } catch (Exception e) {
+            log.debug("게시판 목록을 불러올 수 없습니다", e);
+            return Collections.emptyList();
+        }
+    }
+    
+    
+    
+    
+    @Override
+    public ResponseEntity<? super QnaReadResponseDto> qnaRead(Long qaId) {
+        QnaReadResultSet resultSet = null;
+        List<ImageEntity> imageEntities = new ArrayList<>();
+    
+        try {
+            resultSet = qnaRepository.qnaRead(qaId);
+            if (resultSet == null) return QnaReadResponseDto.boardNotFound();
+    
+            imageEntities = imageRepository.findByQaId(qaId);
+    
+            QnaEntity qnaEntity = qnaRepository.findByQaId(qaId);
+    
+            return QnaReadResponseDto.success(resultSet, imageEntities);
+            
+        } catch (Exception e) {
+            log.debug("게시판 불러오기 실패", e);
+            return ResponseDto.databaseError();
+        }
+    }
+    
     @Override
     public ResponseEntity<? super QnaWriteResponseDto> qnaWrite(QnaWriteRequestDto dto, Long userId) {
 
@@ -128,15 +169,35 @@ public class QnaServiceImplement implements QnaService {
     }
 
 
+
+
     @Override
-    public List<QnaEntity> qnaList() {
-        try {
-            return qnaRepository.findByQaIdAndUserIdAndTitleAndDate(null, null, null, null);
-        } catch (Exception e) {
-            log.debug("게시판 목록을 불러올 수 없습니다", e);
-            return Collections.emptyList();
-        }
+    public ResponseEntity<? super QnaCommentWriteResponseDto> commentWrite(QnaCommentWriteRequestDto dto, Long userId,
+            Long qaId) {
+                try {
+                    
+                    QnaEntity qnaEntity = qnaRepository.findByQaId(qaId);
+                    if (qnaEntity == null) return QnaCommentWriteResponseDto.qnaNotFound();
+        
+                    boolean esistedUser = userRepository.existsByUserId(userId);
+                    if (!esistedUser) return QnaCommentWriteResponseDto.userNotFound();
+        
+                    CommentEntity commentEntity = new CommentEntity(dto, userId, qaId);
+                    commentRepository.save(commentEntity);
+
+                    return QnaCommentWriteResponseDto.success();
+
+                } catch (Exception e) {
+                    log.debug("댓글 작성 실패", e);
+                    return ResponseDto.databaseError();
+                }
     }
+
+
+
+
+
+
 
 
 }

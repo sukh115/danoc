@@ -21,6 +21,8 @@ public interface ResponseMessage {
     String USER_NOT_FOUND = "User not found";
     String USER_DETAILS_NOT_FOUND = "User details not found";
 
+    String QNA_NOT_FOUND = "QNA not found";
+
     String DELETE_FAIL = "Delete Fail";
     String EDIT_FAIL = "Edit Fail";
 };
