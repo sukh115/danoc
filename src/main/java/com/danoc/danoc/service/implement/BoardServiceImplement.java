@@ -176,8 +176,12 @@ public class BoardServiceImplement implements BoardService {
 
                 return BoardReadResponseDto.success(resultSet, imageEntities);
             } catch (Exception e) {
+                log.debug("댓글 작성 실패");
                 return ResponseDto.databaseError();
             }
             
         }
+
+
+
 }

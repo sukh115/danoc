@@ -13,6 +13,7 @@ import com.danoc.danoc.dto.request.qna.QnaCommentWriteRequestDto;
 import com.danoc.danoc.dto.request.qna.QnaDeleteRequestDto;
 import com.danoc.danoc.dto.request.qna.QnaEditRequestDto;
 import com.danoc.danoc.dto.request.qna.QnaWriteRequestDto;
+import com.danoc.danoc.dto.response.comment.CommentListResponseDto;
 import com.danoc.danoc.dto.response.qna.QnaCommentWriteResponseDto;
 import com.danoc.danoc.dto.response.qna.QnaDeleteResponseDto;
 import com.danoc.danoc.dto.response.qna.QnaEditResponseDto;
@@ -25,6 +26,7 @@ import com.danoc.danoc.repository.CommentRepository;
 import com.danoc.danoc.repository.ImageRepository;
 import com.danoc.danoc.repository.QnaRepository;
 import com.danoc.danoc.repository.UserRepository;
+import com.danoc.danoc.repository.resultSet.CommentListResultSet;
 import com.danoc.danoc.repository.resultSet.QnaListResultSet;
 import com.danoc.danoc.repository.resultSet.QnaReadResultSet;
 import com.danoc.danoc.service.QnaService;
@@ -196,7 +198,24 @@ public class QnaServiceImplement implements QnaService {
 
 
 
+    @Override
+    public ResponseEntity<? super CommentListResponseDto> commentList(Long qaId) {
+        
+        List<CommentListResultSet> resultSets = new ArrayList<>();
 
+       try {
+
+        boolean existsQna = qnaRepository.existsByQaId(qaId);
+        if (!existsQna) return CommentListResponseDto.qnaNotFound();
+
+        resultSets = commentRepository.commentList(qaId);
+
+        return CommentListResponseDto.success(resultSets);
+    } catch (Exception e) {
+        log.debug("댓글 불러오기 실패");
+        return ResponseDto.databaseError();
+    }
+    }
 
 
 

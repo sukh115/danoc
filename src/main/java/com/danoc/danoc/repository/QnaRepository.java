@@ -29,7 +29,8 @@ public interface QnaRepository extends JpaRepository<QnaEntity, Long>{
         "FROM qna AS Q " +
         "INNER JOIN user AS U " +
         "ON Q.user_id = U.user_id " +
-        "WHERE qa_id = ?1 ",
+        "WHERE qa_id = ?1 " +
+        "ORDER BY date DESC",
         nativeQuery = true
     )
     QnaReadResultSet qnaRead(Long qaId);
@@ -47,7 +48,8 @@ public interface QnaRepository extends JpaRepository<QnaEntity, Long>{
         "U.name AS name " +
         "FROM qna AS Q " +
         "INNER JOIN user AS U " +
-        "ON Q.user_id = U.user_id ",
+        "ON Q.user_id = U.user_id " +
+        "ORDER BY date DESC",
         nativeQuery = true
     )
     List<QnaListResultSet> qnaList();

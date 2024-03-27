@@ -20,4 +20,5 @@ public interface BoardService {
     ResponseEntity<? super BoardDeleteResponseDto> boardDelete(BoardDeleteRequestDto dto);
     ResponseEntity<? super BoardEditResponseDto> boardEdit(BoardEditRequestDto dto);
     ResponseEntity<? super BoardReadResponseDto> boardRead(Long boardId);
+
 } 

@@ -11,6 +11,7 @@ import com.danoc.danoc.dto.request.qna.QnaCommentWriteRequestDto;
 import com.danoc.danoc.dto.request.qna.QnaDeleteRequestDto;
 import com.danoc.danoc.dto.request.qna.QnaEditRequestDto;
 import com.danoc.danoc.dto.request.qna.QnaWriteRequestDto;
+import com.danoc.danoc.dto.response.comment.CommentListResponseDto;
 import com.danoc.danoc.dto.response.qna.QnaCommentWriteResponseDto;
 import com.danoc.danoc.dto.response.qna.QnaDeleteResponseDto;
 import com.danoc.danoc.dto.response.qna.QnaEditResponseDto;
@@ -30,6 +31,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 
 
@@ -98,6 +101,14 @@ public class QnaController {
         @AuthenticationPrincipal Long userId
     ) {
         ResponseEntity<? super QnaCommentWriteResponseDto> response = qnaService.commentWrite(requestDto, userId, qaId);
+        return response;
+    }
+    
+    @GetMapping("/{qaId}/comment-list")
+    public ResponseEntity<? super CommentListResponseDto> commentList(
+        @PathVariable("qaId") Long qaId
+    ) {
+        ResponseEntity<? super CommentListResponseDto> response = qnaService.commentList(qaId);
         return response;
     }
     

@@ -7,6 +7,7 @@ import com.danoc.danoc.dto.request.qna.QnaCommentWriteRequestDto;
 import com.danoc.danoc.dto.request.qna.QnaDeleteRequestDto;
 import com.danoc.danoc.dto.request.qna.QnaEditRequestDto;
 import com.danoc.danoc.dto.request.qna.QnaWriteRequestDto;
+import com.danoc.danoc.dto.response.comment.CommentListResponseDto;
 import com.danoc.danoc.dto.response.qna.QnaCommentWriteResponseDto;
 import com.danoc.danoc.dto.response.qna.QnaDeleteResponseDto;
 import com.danoc.danoc.dto.response.qna.QnaEditResponseDto;
@@ -22,5 +23,6 @@ public interface QnaService {
     List<QnaListResultSet> qnaList();
     ResponseEntity<? super QnaReadResponseDto> qnaRead(Long qaId);
     ResponseEntity<? super QnaCommentWriteResponseDto> commentWrite(QnaCommentWriteRequestDto dto, Long userId, Long qaId);
+    ResponseEntity<? super CommentListResponseDto> commentList(Long qaId);
     
 }

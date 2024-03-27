@@ -4,7 +4,6 @@ import java.sql.Timestamp;
 
 import com.danoc.danoc.dto.request.qna.QnaEditRequestDto;
 import com.danoc.danoc.dto.request.qna.QnaWriteRequestDto;
-import com.danoc.danoc.dto.response.qna.QnaListResponseDto;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

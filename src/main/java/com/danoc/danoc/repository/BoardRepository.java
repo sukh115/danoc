@@ -26,7 +26,8 @@ public interface BoardRepository  extends JpaRepository<BoardEntity, Long> {
         "FROM board AS B " +
         "INNER JOIN user AS U " +
         "ON B.user_id = U.user_id " +
-        "WHERE board_id = ?1 ",
+        "WHERE board_id = ?1 " +
+        "ORDER BY date DESC",
         nativeQuery = true
     )
     BoardReadResultSet boardRead(Long boardId);
