@@ -203,18 +203,18 @@ public class QnaServiceImplement implements QnaService {
         
         List<CommentListResultSet> resultSets = new ArrayList<>();
 
-       try {
+        try {
 
-        boolean existsQna = qnaRepository.existsByQaId(qaId);
-        if (!existsQna) return CommentListResponseDto.qnaNotFound();
+            boolean existsQna = qnaRepository.existsByQaId(qaId);
+            if (!existsQna) return CommentListResponseDto.qnaNotFound();
 
-        resultSets = commentRepository.commentList(qaId);
+            resultSets = commentRepository.commentList(qaId);
 
-        return CommentListResponseDto.success(resultSets);
-    } catch (Exception e) {
-        log.debug("댓글 불러오기 실패");
-        return ResponseDto.databaseError();
-    }
+            return CommentListResponseDto.success(resultSets);
+        } catch (Exception e) {
+            log.debug("댓글 불러오기 실패");
+            return ResponseDto.databaseError();
+        }
     }
 
 
